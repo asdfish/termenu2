@@ -71,6 +71,7 @@ static int get_executables(const char*** output, size_t* output_length) {
 
         i ++;
       }
+    closedir(directory_pointer);
   }
 
 exit_success:
