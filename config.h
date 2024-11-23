@@ -12,4 +12,6 @@ static const struct Command commands[] = {
 };
 #endif
 
+#define DEFAULT_FLAG_DELIMITER ":"
+
 #endif

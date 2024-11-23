@@ -4,7 +4,7 @@
 struct Command {
   const char* help;
   const char* name;
-  int (*function) (int argc, const char* argv[]);
+  int (*function) (int argc, const char* restrict argv[]);
 };
 
 #endif

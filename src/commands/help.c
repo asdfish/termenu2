@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int command_help(int argc, const char* argv[]) {
+int command_help(int argc, const char* restrict argv[]) {
   printf("Usage: %s [COMMAND] [OPTIONS]...\n"
       "Commands:\n", argv[0]);
 
@@ -26,6 +26,10 @@ int command_help(int argc, const char* argv[]) {
 
     printf(" - %s\n", commands[i].help);
   }
+
+  printf("Options:\n"
+         "\t-d - set delimiter\n"
+         "\t-p - enable password hiding\n");
 
   return 0;
 }
