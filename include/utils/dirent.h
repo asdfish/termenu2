@@ -11,6 +11,6 @@ enum DirentCondition {
 
 extern bool dirent_meets_condition(struct dirent* dirent, enum DirentCondition condition);
 extern size_t dirent_get_length(const char* path, enum DirentCondition);
-extern int dirent_get_names(const char* path, enum DirentCondition condition, const char*** output, size_t* output_length);
+extern int dirent_get_paths(const char* path, enum DirentCondition condition, const char*** output, size_t* output_length);
 
 #endif
