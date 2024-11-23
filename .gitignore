@@ -1,0 +1,4 @@
+termenu
+*.o
+*.gch
+*.pch
