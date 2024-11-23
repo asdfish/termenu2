@@ -5,7 +5,7 @@ COMMONFLAGS := -std=c99 $\
 							 -Iinclude
 
 # uncomment/comment to enable/disable
-# PROCESS_HEADER_FILES := yes
+PROCESS_HEADER_FILES := yes
 PROCESSED_HEADER_FILES := $(if ${PROCESS_HEADER_FILES},$\
 														$(subst .h,$\
 															$(if $(findstring clang,${CC}),$\
