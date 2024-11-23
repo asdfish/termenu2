@@ -3,7 +3,7 @@
 
 #include <stddef.h>
 
-extern size_t string_count(const char* string, const char* delimiter);
-extern int string_separate(const char* string, const char* delimiter, const char*** output, size_t* output_length);
+extern size_t string_count(const char* string, const char* restrict delimiter);
+extern int string_separate(char* string, const char* restrict delimiter, const char*** restrict output, size_t* restrict output_length);
 
 #endif

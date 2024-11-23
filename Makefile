@@ -1,6 +1,6 @@
 CC ?= cc
 CFLAGS ?= -O2 -march=native -pipe
-COMMONFLAGS := -std=c99 $\
+COMMONFLAGS := -std=gnu99 $\
 							 -Wall -Wextra -Wpedantic $\
 							 -Iinclude
 
