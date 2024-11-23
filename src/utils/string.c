@@ -40,7 +40,7 @@ int string_separate(char* string, const char* restrict delimiter, const char*** 
 
   size_t i = 0;
   while(string_p) {
-    if(i > separated_length)
+    if(i >= separated_length)
       break;
     separated[i] = string_p;
 

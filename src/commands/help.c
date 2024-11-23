@@ -28,8 +28,8 @@ int command_help(int argc, const char* restrict argv[]) {
   }
 
   printf("Options:\n"
-         "\t-d - set delimiter\n"
-         "\t-p - enable password hiding\n");
+         "\t-d - set delimiter          - \":\"\n"
+         "\t-p - enable password hiding - false\n");
 
   return 0;
 }

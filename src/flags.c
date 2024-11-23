@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-const char* flag_delimiter = DEFAULT_FLAG_DELIMITER;
+const char* flag_delimiter = ":";
 bool flag_password = false;
 
 int flags_parse(int argc, const char* restrict argv[]) {
@@ -16,10 +16,6 @@ int flags_parse(int argc, const char* restrict argv[]) {
         break;
       case 'p':
         flag_password = true;
-        break;
-      case '?':
-        break;
-      default:
         break;
     }
   }
