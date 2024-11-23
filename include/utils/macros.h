@@ -5,4 +5,9 @@
 
 #define MAX(x, y) (x > y ? x : y)
 
+#define EXIT(jump) { \
+  exit_status = -1; \
+  goto jump;\
+}
+
 #endif
