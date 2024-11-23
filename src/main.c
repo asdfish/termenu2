@@ -1,25 +1,17 @@
-#include <utils/string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#define CONFIG_INCLUDE_COMMANDS
+#include <config.h>
+#include <commands/help.h>
+#include <utils/macros.h>
 
-int main(void) {
-  char* path = getenv("PATH");
-  if(!path)
-    return -1;
+#include <string.h>
 
-  const char** arr = NULL;
-  size_t arr_len = 0;
+int main(int argc, const char* argv[]) {
+  if(argc == 1)
+    return command_help(argc, argv);
 
-  if(string_separate(path,":",&arr,&arr_len) != 0)
-    return -1;
+  for(size_t i = 0; i < ARRAY_LENGTH(commands); i ++)
+    if(strcmp(commands[i].name, argv[1]) == 0)
+      return commands[i].function(argc, argv);
 
-  if(arr) {
-    for(size_t i = 0; i < arr_len; i ++) {
-      printf("%s\n", arr[i]);
-    }
-    free(arr);
-    arr = NULL;
-  }
-
-  return 0;
+  return command_help(argc, argv);
 }

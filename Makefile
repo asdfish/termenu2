@@ -2,7 +2,8 @@ CC ?= cc
 CFLAGS ?= -O2 -march=native -pipe
 COMMONFLAGS := -std=gnu99 $\
 							 -Wall -Wextra -Wpedantic $\
-							 -Iinclude
+							 -Wno-unused-parameter $\
+							 -I. -Iinclude
 
 # uncomment/comment to enable/disable
 PROCESS_HEADER_FILES := yes
