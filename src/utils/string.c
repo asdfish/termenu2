@@ -16,10 +16,10 @@ size_t string_count(const char* string, const char* delimiter) {
   while((string_p = strstr(string_p, delimiter))) {
     count ++;
 
-    if(string_p - string + string_length < string_length)
+    if((size_t) (string_p - string) < string_length)
       string_p += delimiter_length;
     else
-      string_p ++;
+      break;
   }
 
   return count;
