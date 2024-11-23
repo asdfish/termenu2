@@ -75,13 +75,10 @@ int dirent_get_paths(const char* path, enum DirentCondition condition, const cha
   return 0;
 
 free_dirent_paths_contents:
-  for(size_t j = 0; j < i; j ++) {
-    free((char*) dirent_paths[j]);
-    dirent_paths[j] = NULL;
-  }
+  for(size_t j = 0; j < i; j ++)
+    FREE_STRING(dirent_paths[j]);
 free_dirent_paths:
-  free(dirent_paths);
-  dirent_paths = NULL;
+  FREE(dirent_paths);
 closedir:
   closedir(directory_pointer);
   return -1;

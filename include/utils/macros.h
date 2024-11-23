@@ -5,9 +5,15 @@
 
 #define MAX(x, y) (x > y ? x : y)
 
-#define EXIT(jump) { \
-  exit_status = -1; \
-  goto jump;\
-}
+#define FREE(pointer) \
+  if(pointer) {       \
+    free(pointer);    \
+    pointer = NULL;   \
+  }
+#define FREE_STRING(pointer) \
+  if(pointer) {              \
+    free((char*) pointer);   \
+    pointer = NULL;          \
+  }
 
 #endif
