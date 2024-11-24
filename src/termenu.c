@@ -3,7 +3,7 @@
 #include <termenu.h>
 #include <utils/macros.h>
 
-#include <orchestra/orchestra.h>
+#include <orchestra.h>
 
 static o_string filter;
 static struct TbMenu menu;

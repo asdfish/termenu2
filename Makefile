@@ -3,9 +3,8 @@ CFLAGS ?= -O2 -march=native -pipe
 COMMONFLAGS := -std=gnu99 $\
 							 -Wall -Wextra -Wpedantic $\
 							 -Wno-unused-parameter $\
-							 -I. -Iinclude -Ideps/orchestra/include -Ideps/tb_menu/include -Ideps/tb_menu/deps/termbox2
+							 -I. -Iinclude -Ideps/orchestra -Ideps/tb_menu/include -Ideps/tb_menu/deps/termbox2
 LDFLAGS := ${CFLAGS} ${COMMONFLAGS} $\
-					 -Ldeps/orchestra -lorchestra $\
 					 -Ldeps/tb_menu -ltb_menu
 
 # uncomment/comment to enable/disable
