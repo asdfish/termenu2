@@ -14,6 +14,8 @@ static const struct Command commands[] = {
 #ifdef CONFIG_INCLUDE_MENU
 #include <termbox2.h>
 
+static const uintattr_t menu_background = TB_BLACK;
+static const uintattr_t menu_background_reversed = TB_WHITE;
 static const uintattr_t menu_item_foreground = 0;
 static const uintattr_t menu_item_foreground_reversed = TB_BLACK;
 #endif

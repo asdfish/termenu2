@@ -3,6 +3,6 @@
 
 #include <tb_menu/tb_menu.h>
 
-extern int termenu_run(struct TbMenu* menu_items, size_t* output);
+extern int termenu_run(struct TbMenuItem* menu_items, size_t items_length, size_t* output);
 
 #endif

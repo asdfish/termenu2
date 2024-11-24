@@ -2,6 +2,7 @@
 #include <commands/exec.h>
 #include <config.h>
 #include <flags.h>
+#include <termenu.h>
 #include <utils/dirent.h>
 #include <utils/macros.h>
 #include <utils/string.h>
@@ -123,12 +124,18 @@ int command_exec(int argc, const char* restrict argv[]) {
     menu_items[i].contents = path_to_file_name(executables[i]);
   }
 
+  size_t output = 0;
+  if(termenu_run(menu_items, executables_length, &output) != 0)
+    goto free_menu_items;
+
   FREE(menu_items);
   for(size_t i = 0; i < executables_length; i ++)
     FREE_STRING(executables[i]);
   FREE(executables);
   return 0;
 
+free_menu_items:
+  FREE(menu_items);
 free_executables_contents:
   for(size_t i = 0; i < executables_length; i ++)
     FREE_STRING(executables[i]);
