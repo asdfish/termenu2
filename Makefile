@@ -1,5 +1,5 @@
 CC ?= cc
-CFLAGS ?= -Og -g -march=native -pipe
+CFLAGS ?= -O2 -march=native -pipe
 COMMONFLAGS := -std=gnu99 $\
 							 -Wall -Wextra -Wpedantic $\
 							 -Wno-unused-parameter $\

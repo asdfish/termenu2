@@ -8,6 +8,8 @@
 static o_string filter;
 static struct TbMenu menu;
 
+static size_t max_executable_length = 0;
+
 static bool redraw_filter = true;
 static bool redraw_menu = true;
 
@@ -57,7 +59,7 @@ static int handle_key(struct tb_event* event) {
       break;
   }
 
-  if(event->ch != 0) {
+  if(event->ch != 0 && strlen(filter.contents) < max_executable_length) {
     char tail[2] = " \0";
     tail[0] = event->ch;
     if(o_string_cat(&filter, tail) != O_SUCCESS)
@@ -90,19 +92,20 @@ int termenu_run(struct TbMenuItem* menu_items, size_t items_length, size_t* outp
   if(o_string_init(&filter) != O_SUCCESS)
     goto tb_menu_uninit;
 
-  size_t max_name_length = 0;
   for(size_t i = 0; i < items_length; i ++)
-    max_name_length = MAX(max_name_length, strlen(menu_items[i].contents));
-  if(o_string_reserve(&filter, max_name_length) != O_SUCCESS)
+    max_executable_length = MAX(max_executable_length, strlen(menu_items[i].contents));
+  if(o_string_reserve(&filter, max_executable_length) != O_SUCCESS)
     goto o_string_uninit;
 
   tb_init();
   handle_resize();
   while(!submit) {
     if(redraw_filter || redraw_menu) {
-      tb_clear();
       if(redraw_filter) {
-        tb_print(0, 0, 0, 0, filter.contents);
+        tb_print(0, 0, filter_foreground, filter_background, filter.contents);
+        if(strlen(filter.contents) < (size_t) tb_width())
+          for(size_t i = strlen(filter.contents); i < (size_t) tb_width(); i ++)
+            tb_set_cell(i, 0, ' ', 0, filter_background);
         redraw_filter = false;
       }
       if(redraw_menu) {
@@ -119,6 +122,25 @@ int termenu_run(struct TbMenuItem* menu_items, size_t items_length, size_t* outp
       goto tb_shutdown;
   }
 
+  struct TbMenuItem** current_items = NULL;
+  unsigned int current_items_length = 0;
+  if(tb_menu_get_items(&menu, &current_items, &current_items_length) != TBM_SUCCESS)
+    goto tb_shutdown;
+  const char* executable_name = current_items[menu.cursor]->contents;
+
+  bool found = false;
+  size_t selected_item = 0;
+  for(size_t i = 0; i < items_length; i ++)
+    if(strcmp(menu_items[i].contents, executable_name) == 0) {
+      found = true;
+      selected_item = i;
+      goto submit;
+    }
+
+submit:
+  if(!found)
+    goto tb_shutdown;
+  *output = selected_item;
   tb_shutdown();
   o_string_uninit(&filter);
   tb_menu_uninit(&menu);
