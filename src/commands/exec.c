@@ -1,12 +1,19 @@
+#define CONFIG_INCLUDE_MENU
 #include <commands/exec.h>
+#include <config.h>
 #include <flags.h>
 #include <utils/dirent.h>
 #include <utils/macros.h>
 #include <utils/string.h>
 
+#include <tb_menu/tb_menu.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
+static int get_executables(const char*** output, size_t* output_length);
+static const char* path_to_file_name(const char* path);
 
 static int get_executables(const char*** output, size_t* output_length) {
   if(!output || !output_length)
@@ -88,17 +95,43 @@ free_path_separated:
   FREE(path_separated);
   return -1;
 }
+static const char* path_to_file_name(const char* path) {
+  for(ssize_t i = strlen(path); i > 0; i --)
+    if(path[i] == '/')
+      return path + i + 1;
+
+  return path;
+}
 
 int command_exec(int argc, const char* restrict argv[]) {
   const char** executables = NULL;
   size_t executables_length = 0;
   if(get_executables(&executables, &executables_length) != 0)
     return -1;
+  if(!executables_length) {
+    printf("No executables were found\n");
+    return -1;
+  }
+
+  struct TbMenuItem* menu_items = (struct TbMenuItem*) malloc(executables_length * sizeof(struct TbMenuItem));
+  if(!menu_items)
+    goto free_executables_contents;
 
   for(size_t i = 0; i < executables_length; i ++) {
-    printf("%s\n", executables[i]);
-    FREE_STRING(executables[i]);
+    menu_items[i].foreground = menu_item_foreground;
+    menu_items[i].foreground_reversed = menu_item_foreground_reversed;
+    menu_items[i].contents = path_to_file_name(executables[i]);
   }
+
+  FREE(menu_items);
+  for(size_t i = 0; i < executables_length; i ++)
+    FREE_STRING(executables[i]);
   FREE(executables);
   return 0;
+
+free_executables_contents:
+  for(size_t i = 0; i < executables_length; i ++)
+    FREE_STRING(executables[i]);
+  FREE(executables);
+  return -1;
 }

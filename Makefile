@@ -3,7 +3,7 @@ CFLAGS ?= -Og -g -march=native -pipe
 COMMONFLAGS := -std=gnu99 $\
 							 -Wall -Wextra -Wpedantic $\
 							 -Wno-unused-parameter $\
-							 -I. -Iinclude -Ideps/tb_menu/include
+							 -I. -Iinclude -Ideps/tb_menu/include -Ideps/tb_menu/deps/termbox2
 
 # uncomment/comment to enable/disable
 PROCESS_HEADER_FILES := yes
