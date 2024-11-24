@@ -20,4 +20,14 @@ static const uintattr_t menu_item_foreground = 0;
 static const uintattr_t menu_item_foreground_reversed = TB_BLACK;
 #endif
 
+#define KEY_QUIT TB_KEY_ESC
+
+#define KEY_UP   TB_KEY_ARROW_UP
+#define KEY_DOWN TB_KEY_ARROW_DOWN
+
+// if TB_KEY_BACKSPACE does not work try TB_KEY_BACKSPACE2
+#define KEY_DELETE TB_KEY_BACKSPACE2
+
+#define KEY_SUBMIT TB_KEY_ENTER
+
 #endif

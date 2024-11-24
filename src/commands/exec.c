@@ -128,10 +128,17 @@ int command_exec(int argc, const char* restrict argv[]) {
   if(termenu_run(menu_items, executables_length, &output) != 0)
     goto free_menu_items;
 
+  const char* executable = strdup(executables[output]);
+  if(!executable)
+    goto free_menu_items;
+
   FREE(menu_items);
   for(size_t i = 0; i < executables_length; i ++)
     FREE_STRING(executables[i]);
   FREE(executables);
+
+  const char* new_argv[] = { executable, NULL };
+  execv(executable, (char* const*) new_argv);
   return 0;
 
 free_menu_items:

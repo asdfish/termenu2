@@ -3,8 +3,9 @@ CFLAGS ?= -Og -g -march=native -pipe
 COMMONFLAGS := -std=gnu99 $\
 							 -Wall -Wextra -Wpedantic $\
 							 -Wno-unused-parameter $\
-							 -I. -Iinclude -Ideps/tb_menu/include -Ideps/tb_menu/deps/termbox2
+							 -I. -Iinclude -Ideps/orchestra/include -Ideps/tb_menu/include -Ideps/tb_menu/deps/termbox2
 LDFLAGS := ${CFLAGS} ${COMMONFLAGS} $\
+					 -Ldeps/orchestra -lorchestra $\
 					 -Ldeps/tb_menu -ltb_menu
 
 # uncomment/comment to enable/disable
@@ -20,7 +21,8 @@ OBJECT_FILES := $(patsubst src/%.c,$\
 									build/%.o,$\
 									$(shell find src -name '*.c' -type f))
 
-TERMENU_REQUIREMENTS := deps/tb_menu/libtb_menu.a ${PROCESSED_HEADER_FILES} ${OBJECT_FILES}
+TERMENU_REQUIREMENTS := deps/orchestra/liborchestra.a deps/tb_menu/libtb_menu.a $\
+												${PROCESSED_HEADER_FILES} ${OBJECT_FILES}
 
 define COMPILE
 ${CC} -c $(1) ${CFLAGS} ${COMMONFLAGS} -o $(2)
