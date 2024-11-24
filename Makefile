@@ -4,6 +4,8 @@ COMMONFLAGS := -std=gnu99 $\
 							 -Wall -Wextra -Wpedantic $\
 							 -Wno-unused-parameter $\
 							 -I. -Iinclude -Ideps/tb_menu/include -Ideps/tb_menu/deps/termbox2
+LDFLAGS := ${CFLAGS} ${COMMONFLAGS} $\
+					 -Ldeps/tb_menu -ltb_menu
 
 # uncomment/comment to enable/disable
 PROCESS_HEADER_FILES := yes
@@ -18,7 +20,7 @@ OBJECT_FILES := $(patsubst src/%.c,$\
 									build/%.o,$\
 									$(shell find src -name '*.c' -type f))
 
-TERMENU_REQUIREMENTS := ${PROCESSED_HEADER_FILES} ${OBJECT_FILES}
+TERMENU_REQUIREMENTS := deps/tb_menu/libtb_menu.a ${PROCESSED_HEADER_FILES} ${OBJECT_FILES}
 
 define COMPILE
 ${CC} -c $(1) ${CFLAGS} ${COMMONFLAGS} -o $(2)
@@ -29,16 +31,22 @@ $(if $(wildcard $(1)),$\
 	rm $(1))
 
 endef
+define REMOVE_LIBRARY
+$(MAKE) -C $(dir $(1)) clean
+
+endef
 define REMOVE_LIST
 $(foreach ITEM,$\
 	$(1),$\
-	$(call REMOVE,${ITEM}))
+	$(if $(findstring .a,${ITEM}),$\
+		$(call REMOVE_LIBRARY,${ITEM}),$\
+		$(call REMOVE,${ITEM})))
 endef
 
 all: termenu
 
 termenu: ${TERMENU_REQUIREMENTS}
-	${CC} ${OBJECT_FILES} ${CFLAGS} ${COMMONFLAGS} -o $@
+	${CC} ${OBJECT_FILES} ${LDFLAGS} -o $@
 
 build/%.o: src/%.c
 	$(call COMPILE,$<,$@)
@@ -46,6 +54,9 @@ build/%.o: src/%.c
 	$(call COMPILE,$<,$@)
 %.pch: %
 	$(call COMPILE,$<,$@)
+
+%.a:
+	CFLAGS='${CFLAGS}' $(MAKE) -C $(dir $@)
 
 clean:
 	$(call REMOVE_LIST,${TERMENU_REQUIREMENTS})
