@@ -1,3 +1,6 @@
 [submodule "deps/tb_menu"]
 	path = deps/tb_menu
 	url = https://github.com/asdfish/tb_menu
+[submodule "deps/orchestra"]
+	path = deps/orchestra
+	url = https://github.com/asdfish/orchestra
